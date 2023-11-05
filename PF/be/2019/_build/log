@@ -1,0 +1,6 @@
+# dune utop
+# OCAMLPARAM: unset
+# Workspace root: "/home/ayoubn7/Desktop/n7 (copie)/2A/PF/be/2019"
+$ /usr/bin/nproc > /tmp/dune370739.output 2> /dev/null
+# Auto-detected concurrency: 8
+# disable binary cache
