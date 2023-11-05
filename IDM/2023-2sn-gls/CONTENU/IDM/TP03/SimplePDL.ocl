@@ -1,0 +1,32 @@
+import 'SimplePDL.ecore'
+
+package simplepdl
+
+-- @desc ce package contient les invariants de SimplePDL
+context Process
+inv validName('Invalid name: ' + self.name):
+	self.name.matches('[A-Za-z_][A-Za-z0-9_]*')
+
+context ProcessElement
+def: process(): Process =
+	Process.allInstances()
+		->select(p | p.processElements->includes(self))
+		->asSequence()->first()
+
+context WorkSequence
+inv successorAndPredecessorInSameProcess('Activities not in the same process : '
+		+ self.predecessor.name + ' in ' + self.predecessor.process().name+ ' and '
+		+ self.successor.name + ' in ' + self.successor.process().name
+):
+	self.process() = self.successor.process()
+	and self.process() = self.predecessor.process()
+
+context Process
+inv uniqueactivities('Duplicate activity name: ' + self.activities.name):
+	self.processElements
+		->select(p | p.oclIsTypeOf(WorkDefinition))
+		->collect(p | p.oclAsType(WorkDefinition))
+		->isUnique(name)
+
+
+endpackage
