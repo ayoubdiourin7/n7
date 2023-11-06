@@ -27,8 +27,6 @@ public class LoadBalancer extends Thread {
             // send the request geted from the client to the host
             socketHost.getOutputStream().write(buffer, 0, nbRead);
 
-            
-
             // read the response from the host
             nbRead = socketHost.getInputStream().read(buffer);
 
@@ -49,6 +47,7 @@ public class LoadBalancer extends Thread {
         ServerSocket s = new ServerSocket(8080);
         while (true) {
             Thread t = new LoadBalancer(s.accept());
+            System.out.println("New client connected");
             t.start();
         }
     }
